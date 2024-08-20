@@ -1,0 +1,29 @@
+{
+  "name": "turmin",
+  "version": "1.0.0",
+  "description": "Turmin esoteric programming language is neither a Turing machine nor a Minsky machine.",
+  "main": "turmin.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ttulka/turmin.git"
+  },
+  "keywords": [
+    "turmin",
+    "esolang",
+    "turing-machine",
+    "programming-language",
+    "js"
+  ],
+  "author": "Tomas Tulka (ttulka)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ttulka/turmin/issues"
+  },
+  "homepage": "https://github.com/ttulka/turmin#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

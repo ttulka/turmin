@@ -48,6 +48,19 @@ test('jump', () => {
   expect(turmin('jy4 sy r jx0', 'xxx')).toEqual('yyy')
 })
 
+test('debug', () => {
+  let mem = [], head = [], step = []
+  const onDebug = (m, h, s) => {
+    mem.push(m)
+    head.push(h)
+    step.push(s)
+  }
+  turmin('sA r sB d l sX d', null, null, onDebug)
+  expect(mem).toStrictEqual([['A', 'B'], ['X', 'B']])
+  expect(head).toStrictEqual([1, 0])
+  expect(step).toStrictEqual([4, 7])
+})
+
 test('empty program', () => {
   expect(turmin('')).toEqual('')
 })
@@ -60,13 +73,14 @@ test('infinite loop', () => {
 
 test('addition', () => {
   const add = `
-    j 3 r j|0
-    s|
-    r j|4
-    l s
+    j 3 r j|0   / move to the next number
+    s|          / replace a space with a tally mark
+    r j|4       / to the end of the second number
+    l s         / erase the last tally mark
   `
   expect(turmin(add, '| |')).toEqual('||')
   expect(turmin(add, '|| |')).toEqual('|||')
+  expect(turmin(add, '|| |||')).toEqual('|||||')
   expect(turmin(add, '||| |||||')).toEqual('||||||||')
 })
 
@@ -115,7 +129,7 @@ test('fibonacci sequence', () => {  // on tape: unary count of iterations
     / decrement iteration
     rj|0        //0
     rj|2        //2
-    r j 999 l   / jump to end if no iterations left
+    r j 999 l   / halt if no iterations left
     rj|7        //7
     l s         //9
 
@@ -129,7 +143,7 @@ test('fibonacci sequence', () => {  // on tape: unary count of iterations
     / mark last digit
     rj|18       //18
     rj|20       //20
-    ls.         //22
+    ls+         //22
 
     / back to the left tape begin
     / add a new digit to the begin
@@ -142,12 +156,12 @@ test('fibonacci sequence', () => {  // on tape: unary count of iterations
     / to the third number
     rj|33       //33
     rj|35       //35
-    r j.43 l    / all digits marked
+    r j+43 l    / all digits marked
     rj|40       //40
-    j.22        / repeat
+    j+22        / repeat
 
     / remove marks
-    s|rj.43     //43
+    s|rj+43     //43
 
     / join the second and third numbers (add)
     sx l s 
@@ -180,4 +194,15 @@ test('fibonacci sequence', () => {  // on tape: unary count of iterations
 
 test('Hello World', () => {
   expect(turmin('sHrserslrslrsors,rs rsWrsorsrrslrsdrs!')).toEqual('Hello, World!')
+})
+
+// ┌─A/X/R──[S1]──B/B/L──>[S2]
+// └─────────^   
+test('Turing machine', () => {
+  expect(turmin(`
+    / S1
+    jB3 sX r jA0
+    / S2
+    l
+  `, 'AAAB')).toEqual('XXXB')
 })

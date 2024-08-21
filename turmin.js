@@ -34,7 +34,7 @@ const interpret = (program, memory, maxSteps, onDebug) => {
                 else pc++
                 break
             case 'DEBUG':
-                if (typeof onDebug === 'function') onDebug([...m], h, ms)
+                if (typeof onDebug === 'function') onDebug([...m], h, sc)
                 pc++
                 break
         }

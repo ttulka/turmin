@@ -109,19 +109,19 @@ The initial input consists of three arguments: the two starting elements of the 
 For example, 3 iterations can be performed starting with 1 and 2:
 
 ```
-| || |||
+ | || |||
 ```
 
 First, the program decrements the iteration counter. If the counter reaches zero, the program halts:
 
 ```
-| || ||
+ | || ||
 ```
 
 Next, the second number is moved as the new first element by marking it digit by digit:
 
 ```
-| | |+ ||
+ | | |+ ||
 || | ++ ||
 ```
 
@@ -195,7 +195,7 @@ r j|0
 
 ### Hello, World!
 
-The legendary program is straightforward to implement in Turmin.
+The legendary program is straightforward to implement in Turmin:
 
 ```turmin
 sHrserslrslrsors,rs rsWrsorsrrslrsdrs!

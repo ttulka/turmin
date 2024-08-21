@@ -1,8 +1,12 @@
 # Turmin
 
-**Turmin** is neither a Turing machine nor a Minsky machine. It is a language to program Turing machines with a minimalistic yet convenient instruction set. The explicit state machine used traditionally in description numbers of Turing machines is conveniently replaced by conditional jumps borrowed from Minsky machines.
+**Turmin** is neither a Turing machine nor a Minsky machine. It is a language for programming Turing machines with a minimalistic yet convenient instruction set. The explicit state machine used traditionally in description numbers of Turing machines is conveniently replaced by conditional jumps borrowed from Minsky machines.
 
-Like Turing machines, a Turmin program operates on an unbounded tape of cells, each holding a symbol from the program alphabet. The used charset depends on the implementation, but each interpreter must support at least ASCII starting from #20 (SPACE). The character #20 is also the initial value of each cell, so an empty cell has the value #20. This is just a convenient shortcut, avoiding the introduction of any special characters (such as `ε`) or additional instructions like *clear* and *jump if empty*. An implementation can simply interpret an empty cell, either undefined or having an empty value, as a space.
+## Memory model
+
+Like Turing machines, a Turmin program operates on an unbounded tape of cells, each holding a symbol from the program alphabet. The used charset depends on the implementation, but each interpreter must support at least ASCII starting from #20 (SPACE). 
+
+The character #20 is also the initial value of each cell, so an empty cell has the value #20. This is just a convenient shortcut, avoiding the introduction of any special characters (such as `ε`) or additional instructions like *clear* and *jump if empty*. An implementation can simply interpret an empty cell, either undefined or having an empty value, as a space.
 
 ## Instructions
 
@@ -129,7 +133,7 @@ The marks are then removed, and the numbers are added:
 || ||| ||
 ```
 
-Then, the next iteration then begins.
+Then, the next iteration begins.
 
 ```turmin
 / decrement iteration
@@ -201,14 +205,14 @@ sHrserslrslrsors,rs rsWrsorsrrslrsdrs!
 
 It should be evident that Turmin is a Turing-complete language, as it has read-write access to unbounded memory and supports conditional jumps. We can easily demonstrate that Turmin can simulate both Turing and Minsky machines.
 
-### Turing machines
+### Turing machine
 
 A Turing machine performs computations based on state transitions. In Turmin, states can be simulated as snippets of code that the program jumps to based on a transition.
 
-Consider the following Turing machine, which rewrites `A` to `X` until it encounters a `B`:
+Consider the following Turing machine with two states, S1 and S2, which rewrites `A` to `X` until it encounters a `B`:
 
 ```
-  ┌─A/X/R──[S1]──B/B/L──>[S2]
+  ┌─A/X/R──(S1)──B/B/L──>(S2)
   └─────────^   
 ```
 

@@ -74,7 +74,7 @@ The result for the input 2 and 3 is as follows (5):
 
 Turmin is a symbolic machine, making it well-suited for string manipulation.
 
-To check if an input is a palindrome, the first character is “eaten” and compared to the last one. If a discrepancy is found, the tape is erased. If all characters are eaten without finding a difference, the program prints 1:
+To check if an input is a palindrome, the first character is “eaten” and compared to the last one. If a discrepancy is found, the tape is erased. If all characters are eaten without finding a difference, the program prints `1`:
 
 ```turmin
 j 27
@@ -125,7 +125,7 @@ Next, the second number is moved as the new first element by marking it digit by
 || | ++ ||
 ```
 
-The marks are then removed, and the numbers are added:
+The marks are then removed, and the two numbers are added together:
 
 ```
 || | +| ||
@@ -195,7 +195,7 @@ r j|0
 
 ### Hello, World!
 
-The legendary program is straightforward to implement in Turmin:
+This legendary program is straightforward to implement in Turmin:
 
 ```turmin
 sHrserslrslrsors,rs rsWrsorsrrslrsdrs!
@@ -203,20 +203,20 @@ sHrserslrslrsors,rs rsWrsorsrrslrsdrs!
 
 ## Computational class
 
-It should be evident that Turmin is a Turing-complete language, as it has read-write access to unbounded memory and supports conditional jumps. We can easily demonstrate that Turmin can simulate both Turing and Minsky machines.
+It should be evident that Turmin is a Turing-complete language, as it has read-write access to unbounded memory and supports conditional jumps. We can easily show that Turmin can simulate both Turing and Minsky machines.
 
 ### Turing machine
 
 A Turing machine performs computations based on state transitions. In Turmin, states can be simulated as snippets of code that the program jumps to based on a transition.
 
-Consider the following Turing machine with two states, S1 and S2, which rewrites `A` to `X` until it encounters a `B`:
+Consider the following Turing machine with two states, S1 and S2, which rewrites `A`s to `X`s until it encounters a `B`:
 
 ```
   ┌─A/X/R──(S1)──B/B/L──>(S2)
   └─────────^   
 ```
 
-Translating this into Turmin is straightforward:
+Translating this Turing machine into Turmin is a mechanical process:
 
 ```turmin
 / S1

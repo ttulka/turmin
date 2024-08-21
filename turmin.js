@@ -5,7 +5,7 @@ const interpret = (program, memory, maxSteps, onDebug) => {
     const p = parse(program)
     const m = Array.isArray(memory) ? memory : (typeof memory === 'string' ? memory.split('') : [])
                 .map(s => (s === null || s === undefined || s === EPS) ? null : s + '')
-    const ms = maxSteps > 0 ? maxSteps : 10000 // TODO
+    const ms = maxSteps > 0 ? maxSteps : 0
 
     let pc = 0   // program counter
     let h  = 0   // tape head

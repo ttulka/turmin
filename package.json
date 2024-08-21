@@ -13,8 +13,9 @@
   "keywords": [
     "turmin",
     "esolang",
-    "turing-machine",
     "programming-language",
+    "turing-machine",
+    "minsky-machine",
     "js"
   ],
   "author": "Tomas Tulka (ttulka)",

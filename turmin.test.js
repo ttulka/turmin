@@ -20,6 +20,8 @@ test('comments', () => {
   expect(turmin('/\\')).toEqual('')
   expect(turmin('/ sx')).toEqual('')
   expect(turmin('/ sx \\')).toEqual('')
+  expect(turmin('sx / sy \\')).toEqual('x')
+  expect(turmin('sx / sy \\ r sz')).toEqual('xz')
 })
 
 test('set/right/left', () => {

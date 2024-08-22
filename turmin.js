@@ -54,8 +54,9 @@ function parse(program) {
     const regex = 's[ -~]|r|l|j[ -~]([1-9][0-9]*|0)|d'
 
     program = program
-        .replaceAll(/\/.*(\\|$|\n)/g, '')    // remove comments
-        .replaceAll(/\n/g,' ')               // remove whitespaces 
+        .replaceAll(/\/.*(\\)/g, '')    // remove comments
+        .replaceAll(/\/.*($|\n)/g, '')
+        .replaceAll(/\n/g,' ')          // remove whitespaces 
         .replaceAll(new RegExp('(' + regex + ')\\s+', 'g'), '$1')
         .trimStart()
 

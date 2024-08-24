@@ -74,7 +74,7 @@ The result for the input 2 and 3 is as follows (5):
 
 Turmin is a symbolic machine, making it well-suited for string manipulation.
 
-To check if an input string of `x`s and `y`s is a palindrome, the first character is “eaten” and compared to the last one. If a discrepancy is found, the tape is erased. If all characters are eaten without finding a difference, the program prints `1`:
+To check if an input string of `x`s and `y`s is a palindrome (such as `xx` or `yyxyy`), the first character is “eaten” and compared to the last one. If a discrepancy is found, the tape is erased. If all characters are eaten without finding a difference, the program prints `1`:
 
 ```turmin
 j 27

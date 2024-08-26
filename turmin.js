@@ -12,7 +12,8 @@ const interpret = (program, memory, maxSteps, onDebug) => {
 
     // execute
     let sc = 0   // step counter
-    while (pc < p.length && (!ms || ++sc <= ms)) {
+    while (pc < p.length && (!ms || sc <= ms)) {
+        sc++
         const i = p[pc]
 
         switch (i.id) {
@@ -42,10 +43,12 @@ const interpret = (program, memory, maxSteps, onDebug) => {
 
     if (maxSteps && sc > maxSteps) throw new Error('Maximal steps exceeded')
 
-    return tape(m)
+    return output(m)
 
-    function tape(m) {
-        return m.map(c => c === null ? EPS : c).join('').trim()
+    function output(m) {
+        let out = ''
+        for (let i = 0; i < m.length; i++) out += !m[i] ? EPS : m[i]
+        return out.trim()
     }
 }
 

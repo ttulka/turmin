@@ -63,6 +63,15 @@ test('debug', () => {
   expect(step).toStrictEqual([4, 7])
 })
 
+test('output tape', () => {
+  expect(turmin('sxrsy')).toEqual('xy')
+  expect(turmin('sxrrsy')).toEqual('x y')
+  expect(turmin('sxrrrsy')).toEqual('x  y')
+  expect(turmin('sxlsy')).toEqual('yx')
+  expect(turmin('sxllsy')).toEqual('y x')
+  expect(turmin('sxlllsy')).toEqual('y  x')
+})
+
 test('empty program', () => {
   expect(turmin('')).toEqual('')
 })

@@ -1,6 +1,6 @@
 # Turmin
 
-<img src="logo-small.png" style="width: 30%; float: right; margin: 1rem 0 1rem 2rem; border-radius: 1rem; max-width: 200px; float: right" align="right" width="200">
+<img src="logo-small.png" style="width: 12%; float: right; margin: 1rem 0 1rem 2rem; border-radius: 1rem; max-width: 150px; float: right; z-index: 99" align="right" width="150">
 
 **Turmin** is neither a Turing machine nor a Minsky machine. It is a language for programming Turing machines with a minimalistic yet convenient instruction set. The explicit state machine used traditionally in description numbers of Turing machines is conveniently replaced by conditional jumps borrowed from Minsky machines.
 

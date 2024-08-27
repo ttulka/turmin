@@ -5,7 +5,9 @@ const interpret = (program, memory, maxSteps, onDebug) => {
     const p = parse(program)
     const m = Array.isArray(memory) ? memory : (typeof memory === 'string' ? memory.split('') : [])
                 .map(s => (s === null || s === undefined || s === EPS) ? null : s + '')
+                
     const ms = maxSteps > 0 ? maxSteps : 0
+    const debug = typeof onDebug === 'function'
 
     let pc = 0   // program counter
     let h  = 0   // tape head
@@ -35,13 +37,13 @@ const interpret = (program, memory, maxSteps, onDebug) => {
                 else pc++
                 break
             case 'DEBUG':
-                if (typeof onDebug === 'function') onDebug([...m], h, sc)
+                if (debug) onDebug([...m], h, sc)
                 pc++
                 break
         }
     }
 
-    if (maxSteps && sc > maxSteps) throw new Error('Maximal steps exceeded')
+    if (maxSteps && sc > maxSteps && !debug) throw new Error('Maximal steps exceeded')
 
     return output(m)
 
@@ -56,17 +58,17 @@ const interpret = (program, memory, maxSteps, onDebug) => {
 function parse(program) {
     const regex = 's[ -~]|r|l|j[ -~]([1-9][0-9]*|0)|d'
 
-    program = program
+    const source = program
         .replaceAll(/\/.*(\\)/g, '')    // remove comments
         .replaceAll(/\/.*($|\n)/g, '')
         .replaceAll(/\n/g,' ')          // remove whitespaces 
         .replaceAll(new RegExp('(' + regex + ')\\s+', 'g'), '$1')
         .trimStart()
 
-    if (!new RegExp('^(' + regex + ')*$').test(program))
+    if (!new RegExp('^(' + regex + ')*$').test(source))
         throw new Error('Syntax error: invalid code')
 
-    return (program.match(new RegExp(regex, 'g')) || [])
+    return (source.match(new RegExp(regex, 'g')) || [])
         .map(instr => {
             if (instr.startsWith('s') && instr.length === 2) {
                 return new Instr('SET', instr[1])

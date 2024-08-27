@@ -217,3 +217,37 @@ test('Turing machine', () => {
     l
   `, 'AAAB')).toEqual('XXXB')
 })
+
+// productions: (011, 10, 101)
+test('cyclic tag system', () => {
+  const cts = `    
+    / 011
+    j 51         / halt on empty
+    j014         / next production
+    rj02j12      / move rightmost 
+    s0rs1rs1     / append 011
+    lj010j110r   / move leftmost
+    s r d        / delete + debug
+
+    / 10
+    j 51         / halt on empty
+    j029         / next production
+    rj019j119    / move rightmost 
+    s1rs0        / append 10
+    lj025j125r   / move leftmost    
+    s r d        / delete + debug
+
+    / 101
+    j 51         / halt on empty
+    j046         / next production
+    rj034j134    / move rightmost 
+    s1rs0rs1     / append 101
+    lj042j142r   / move leftmost
+    s r d        / delete + debug
+
+    j00j10       / repeat
+  `
+  const mem = []
+  turmin(cts, '1', 1000, m => mem.push(m.join('').trim()))
+  expect(mem.slice(0, 6)).toStrictEqual(['011', '11', '1101', '101011', '0101110', '101110'])
+})

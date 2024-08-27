@@ -235,6 +235,38 @@ Incrementing a register involves adding a tally mark and shifting to the right, 
 
 Conditional jumps are natively supported in Turmin, and checking for zero is as simple as verifying whether any tally mark exists between separators.
 
+### Cyclic tag system
+
+It is almost trivial to translate any cyclic tag system into Turmin. For example, the cyclic tag system with the productions (011, 10, 101) corresponds to the following Turmin program:
+
+```turmin
+/ 011
+j 51         / halt on empty
+j014         / next production
+rj02j12      / move rightmost 
+s0rs1rs1     / append 011
+lj010j110r   / move leftmost
+s r d        / delete + debug
+
+/ 10
+j 51         / halt on empty
+j029         / next production
+rj019j119    / move rightmost 
+s1rs0        / append 10
+lj025j125r   / move leftmost    
+s r d        / delete + debug
+
+/ 101
+j 51         / halt on empty
+j046         / next production
+rj034j134    / move rightmost 
+s1rs0rs1     / append 101
+lj042j142r   / move leftmost
+s r d        / delete + debug
+
+j00j10       / repeat
+```
+
 ## JavaScript interpreter
 
 ```sh

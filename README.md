@@ -23,9 +23,27 @@ Instructions in a Turmin program are indexed from zero. Jumping to a nonexistent
 
 Whitespaces between instructions are permitted.
 
-An interpreter may also allow code comments. A code comment starts with `/` and ends with `\` or a newline. Code comments can contain any arbitrary text; they are fully ignored by interpretation.
+## Extensions
 
-An interpreter may additionally support the instruction `d` (DEBUG) to output useful debugging information.
+In addition to the base four instructions, a Turmin interpreter may also implement the following extensions:
+
+### Debug
+
+The directive `d` (DEBUG) will output useful debugging information.
+
+DEBUG should not be counted as an ordinary instruction, allowing it to be added to or removed from the source code without affecting the computation.
+
+### Labels
+
+A label is a directive that begins with a colon followed by zero `:0` and an arbitrary number. For instance, `:01` and `:099999` are valid labels.
+
+Labels without the colon can be used in JUMP instructions as the parameter *N*. For instance, `jx01` and `jx099999`.
+
+### Comments
+
+A code comment starts with `/` and ends with `\` or a newline. 
+
+Code comments can contain any arbitrary text; they are fully ignored by interpretation.
 
 ## Examples
 

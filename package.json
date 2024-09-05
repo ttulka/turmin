@@ -1,6 +1,6 @@
 {
   "name": "turmin",
-  "version": "1.0.0-2",
+  "version": "1.1.0-0",
   "description": "Turmin esoteric programming language is neither a Turing machine nor a Minsky machine.",
   "main": "turmin.js",
   "scripts": {

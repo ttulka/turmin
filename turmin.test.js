@@ -9,10 +9,17 @@ test('error: invalid syntax', () => {
   expect(() => turmin('rs')).toThrow('Syntax error: invalid code')
   expect(() => turmin('j')).toThrow('Syntax error: invalid code')
   expect(() => turmin('js')).toThrow('Syntax error: invalid code')
-  expect(() => turmin('jx01')).toThrow('Syntax error: invalid code')
+  expect(() => turmin('jx001')).toThrow('Syntax error: invalid code')
   expect(() => turmin('jxs')).toThrow('Syntax error: invalid code')
   expect(() => turmin('jxl')).toThrow('Syntax error: invalid code')
   expect(() => turmin('jxr')).toThrow('Syntax error: invalid code')
+  expect(() => turmin(':')).toThrow('Syntax error: invalid code')
+  expect(() => turmin(':x')).toThrow('Syntax error: invalid code')
+  expect(() => turmin(':x1')).toThrow('Syntax error: invalid code')
+  expect(() => turmin(':1x1')).toThrow('Syntax error: invalid code')
+  expect(() => turmin(':0')).toThrow('Syntax error: invalid code')
+  expect(() => turmin(':00')).toThrow('Syntax error: invalid code')
+  expect(() => turmin(':001')).toThrow('Syntax error: invalid code')
 })
 
 test('comments', () => {
@@ -60,7 +67,28 @@ test('debug', () => {
   turmin('sA r sB d l sX d', null, null, onDebug)
   expect(mem).toStrictEqual([['A', 'B'], ['X', 'B']])
   expect(head).toStrictEqual([1, 0])
-  expect(step).toStrictEqual([4, 7])
+  expect(step).toStrictEqual([3, 5])
+})
+
+test('debug 2', () => {
+  let mem = [], head = [], step = []
+  const onDebug = (m, h, s) => {
+    mem.push(m)
+    head.push(h)
+    step.push(s)
+  }
+  turmin('d sA r sB d l sX d', null, null, onDebug)
+  expect(mem).toStrictEqual([[], ['A', 'B'], ['X', 'B']])
+  expect(head).toStrictEqual([0, 1, 0])
+  expect(step).toStrictEqual([0, 3, 5])
+})
+
+test('labels', () => {
+  expect(() => turmin('j 01')).toThrow('Syntax error: invalid label')
+  expect(turmin('j 01sxr:01sy')).toEqual('y')
+  expect(turmin('j 0789sxr:0789sy')).toEqual('y')
+  expect(turmin('j 0789 sxr :0789 sy')).toEqual('y')
+  expect(turmin('j 02 :01 sxr j 03 :02 syr j 01 :03 sz')).toEqual('yxz')
 })
 
 test('output tape', () => {

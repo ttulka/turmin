@@ -37,6 +37,7 @@ const interpret = (program, memory, maxSteps, onDebug) => {
                 else pc++
                 break
             case 'DEBUG':
+                sc--    // debug is not a computation instruction, thus it doesn't count to the step counter
                 if (debug) onDebug([...m], h, sc)
                 pc++
                 break
@@ -56,7 +57,7 @@ const interpret = (program, memory, maxSteps, onDebug) => {
 
 // parse the program to AST
 function parse(program) {
-    const regex = 's[ -~]|r|l|j[ -~]([1-9][0-9]*|0)|d'
+    const regex = 's[ -~]|r|l|j[ -~]([1-9][0-9]*|0[1-9][0-9]*|0)|d|:0[1-9][0-9]*'
 
     const source = program
         .replaceAll(/\/.*(\\)/g, '')    // remove comments
@@ -68,25 +69,40 @@ function parse(program) {
     if (!new RegExp('^(' + regex + ')*$').test(source))
         throw new Error('Syntax error: invalid code')
 
-    return (source.match(new RegExp(regex, 'g')) || [])
-        .map(instr => {
-            if (instr.startsWith('s') && instr.length === 2) {
-                return new Instr('SET', instr[1])
+    const labels = []
+    let pc = 0
+    const instructions = (source.match(new RegExp(regex, 'g')) || []).filter((instr, index) => {
+        if (instr.startsWith(':')) {
+            labels[instr.substring(1)] = pc
+            return false
+        }
+        pc++
+        return true
+    })
+
+    return instructions.map(instr => {            
+        if (instr.startsWith('s') && instr.length === 2) {
+            return new Instr('SET', instr[1])
+        }
+        if (instr === 'r') {
+            return new Instr('RIGHT')
+        }
+        if (instr === 'l') {
+            return new Instr('LEFT')
+        }
+        if (instr.startsWith('j') && instr.length >= 3) {
+            let addr = instr.substring(2)
+            if (addr.length > 1 && addr.startsWith('0')) {  // it's a label
+                if (labels[addr] >= 0) addr = labels[addr]
+                else throw new Error('Syntax error: invalid label')
             }
-            if (instr === 'r') {
-                return new Instr('RIGHT')
-            }
-            if (instr === 'l') {
-                return new Instr('LEFT')
-            }
-            if (instr.startsWith('j') && instr.length >= 3) {
-                return new Instr('JUMP', instr[1], instr.substring(2)-0)
-            }
-            if (instr === 'd') {
-                return new Instr('DEBUG')
-            }
-            throw new Error('Syntax error: invalid instruction')
-        })
+            return new Instr('JUMP', instr[1], addr-0)
+        }
+        if (instr === 'd') {
+            return new Instr('DEBUG')
+        }
+        throw new Error('Syntax error: invalid instruction')
+    })
 }
 
 class Instr {
